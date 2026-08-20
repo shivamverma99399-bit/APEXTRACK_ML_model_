@@ -10,6 +10,22 @@ from app.core.exceptions import (
 from app.core.logging import logger, setup_logging
 
 
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Pre-warm ML model on startup to avoid request-time latency and cold-start timeouts
+    try:
+        from app.ml.model_loader import HFModelLoader
+        if HFModelLoader.is_configured():
+            logger.info("Lifespan: Pre-warming Hugging Face model on startup...")
+            HFModelLoader.load_model_and_processor()
+            logger.info("Lifespan: Model successfully pre-warmed and ready for inference.")
+    except Exception as e:
+        logger.warning(f"Lifespan: Model pre-warming deferred: {str(e)}")
+    yield
+
+
 def create_application() -> FastAPI:
     """
     Application factory initializing FastAPI, CORS, Exception Handlers, and Routers.
@@ -25,13 +41,23 @@ def create_application() -> FastAPI:
         openapi_url="/openapi.json",
         docs_url="/docs",
         redoc_url="/redoc",
+        lifespan=lifespan,
     )
 
-    # Configure CORS
-    if settings.ALLOWED_ORIGINS:
+    # Configure CORS robustly for production and local development
+    origins = settings.ALLOWED_ORIGINS
+    if isinstance(origins, list) and ("*" in origins or not origins):
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=settings.ALLOWED_ORIGINS,
+            allow_origins=["*"],
+            allow_credentials=False,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+    else:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],

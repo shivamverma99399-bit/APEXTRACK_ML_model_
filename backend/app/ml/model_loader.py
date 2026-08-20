@@ -89,14 +89,19 @@ class HFModelLoader:
             )
 
             logger.info(f"Loading Hugging Face image classification model from: {target}")
+            torch.set_num_threads(1)
             model = AutoModelForImageClassification.from_pretrained(
                 target,
                 token=auth_token,
+                low_cpu_mem_usage=True,
             )
 
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             model.to(device)
             model.eval()
+
+            import gc
+            gc.collect()
 
             # Store in cache
             cls._cached_model = model
