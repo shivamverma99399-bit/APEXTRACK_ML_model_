@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APEXTRACK AI — Live Track Condition Intelligence</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;0,800;1,400&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS with custom HUD design system -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"JetBrains Mono"', 'monospace'],
+              orbitron: ['"Orbitron"', 'sans-serif'],
+            },
+            colors: {
+              hud: {
+                bg: '#05070a',
+                panel: 'rgba(11, 14, 20, 0.72)',
+                panelDark: 'rgba(5, 7, 10, 0.88)',
+                edge: 'rgba(0, 240, 255, 0.22)',
+                edgeHover: 'rgba(0, 240, 255, 0.45)',
+                cyan: '#00f0ff',
+                cyanGlow: 'rgba(0, 240, 255, 0.35)',
+                amber: '#ffb000',
+                amberGlow: 'rgba(255, 176, 0, 0.35)',
+                red: '#ff3344',
+                redGlow: 'rgba(255, 51, 68, 0.35)',
+                green: '#00ff88',
+                greenGlow: 'rgba(0, 255, 136, 0.35)',
+                dim: '#8a95a8',
+                txt: '#c8d1dc',
+                light: '#ffffff'
+              }
+            },
+            animation: {
+              'pulse-fast': 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'radar': 'radar 4s linear infinite',
+              'hud-glow': 'hudGlow 2.5s ease-in-out infinite alternate',
+            },
+            keyframes: {
+              radar: {
+                '0%': { transform: 'rotate(0deg)' },
+                '100%': { transform: 'rotate(360deg)' },
+              },
+              hudGlow: {
+                '0%': { filter: 'drop-shadow(0 0 2px rgba(0,240,255,0.3))' },
+                '100%': { filter: 'drop-shadow(0 0 8px rgba(0,240,255,0.7))' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-black text-hud-txt font-mono overflow-hidden select-none">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

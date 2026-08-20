@@ -1,0 +1,42 @@
+# Environment variables
+.env
+*.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+ENV/
+env/
+
+# Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Data and Models (Model & Dataset hosted on Hugging Face)
+models/*
+!models/.gitkeep
+ml/models/*
+!ml/models/.gitkeep
+data/
+ml/data/
+!ml/data/.gitkeep
+!ml/data/metadata/
+
+# ML Training & Run Artifacts
+wandb/
+runs/
+logs/
+checkpoints/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
