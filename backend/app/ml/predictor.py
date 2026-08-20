@@ -57,10 +57,12 @@ class HFTrackConditionPredictor(TrackConditionPredictor):
             inputs = self.preprocessor.preprocess(image)
             inputs = {k: v.to(device) for k, v in inputs.items()}
 
-            with torch.no_grad():
+            with torch.inference_mode():
                 outputs = self.model(**inputs)
                 logits = outputs.logits
                 probs = F.softmax(logits, dim=-1).squeeze().tolist()
+
+            del inputs, outputs, logits
 
             if isinstance(probs, float):
                 probs = [probs]
