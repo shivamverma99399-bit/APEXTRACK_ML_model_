@@ -16,8 +16,9 @@ class Settings(BaseSettings):
 
     API_V1_PREFIX: str = "/api/v1"
 
-    # Hugging Face / ML Model Configuration
+    # Hugging Face / ML Model & Dataset Configuration
     HF_MODEL_ID: Optional[str] = "yuvrajengines/apextrack-track-condition-v2"
+    HF_DATASET_ID: Optional[str] = "yuvrajengines/apextrack-track-condition-dataset"
     MODEL_ID: Optional[str] = ""
     MODEL_PATH: Optional[str] = ""
     HF_TOKEN: Optional[str] = None
